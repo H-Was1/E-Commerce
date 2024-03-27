@@ -40,10 +40,10 @@ export const StoreModal = () => {
     try {
       setIsLoading(true);
       const response = await axios.post("/api/stores", values);
-      console.log(response.data);
+      window.location.assign(`/${response.data.id}`);
     } catch (error: any) {
       console.error(error);
-      toast.error(error);
+      toast.error("Something went wrong. Please try again!");
     } finally {
       setIsLoading(false);
     }
@@ -52,7 +52,7 @@ export const StoreModal = () => {
   const storeModal = useStoreModal();
   return (
     <Modal
-      description="Add a new store to manae products and categories"
+      description="Add a new store to manage products and categories"
       title="Create Store"
       isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
