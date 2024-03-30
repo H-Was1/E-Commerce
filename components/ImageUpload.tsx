@@ -37,7 +37,7 @@ const ImageUpload = ({ disabled, onchange, onRemove, value }: Props) => {
             key={url}
             className="relative w-[200px] rounded-md overflow-hidden"
           >
-            <div className="z-10 absolute top-2 ring-2">
+            <div className="z-10 absolute top-2 right-2 h-40">
               <Button
                 type="button"
                 onClick={() => onRemove(url)}
@@ -47,11 +47,17 @@ const ImageUpload = ({ disabled, onchange, onRemove, value }: Props) => {
                 <Trash className="h-4 w-4" />
               </Button>
             </div>
-            <Image fill className="object-cover" alt="image" src={url}></Image>
+            <Image
+              className="object-cover"
+              width={400}
+              height={400}
+              alt="Image"
+              src={url}
+            />
           </div>
         ))}
       </div>
-      <CldUploadWidget onUpload={onUpload} uploadPreset="wgs1dcxp">
+      <CldUploadWidget onSuccess={onUpload} uploadPreset="wgs1dcxp">
         {({ open }) => {
           const onClick = () => {
             open();
@@ -64,6 +70,7 @@ const ImageUpload = ({ disabled, onchange, onRemove, value }: Props) => {
               onClick={onClick}
             >
               <ImagePlus className="h-4 w-4 mr-2" />
+              Upload an image!
             </Button>
           );
         }}

@@ -26,6 +26,7 @@ import { useOrigin } from "@/hooks/useOrigin";
 import router from "next/router";
 import image from "next/image";
 import { title } from "process";
+import ImageUpload from "./ImageUpload";
 
 interface InitialProps {
   initialData: Billboard | null;
@@ -56,12 +57,18 @@ const BillboardForm: React.FC<InitialProps> = ({ initialData }) => {
   });
 
   const onSubmit = async (data: settingsForm) => {
-    console.log(data);
     try {
       setIsLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data);
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
       router.refresh();
-      toast.success("Store updated!");
+      toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
@@ -74,12 +81,14 @@ const BillboardForm: React.FC<InitialProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      );
       router.refresh();
-      toast.success("Store deleted!");
+      toast.success("Billboard deleted!");
     } catch (error) {
       toast.error(
-        "Make sure you have removed all the products and categories first."
+        "Make sure you have removed all categories first, that are using this billboard."
       );
     } finally {
       setOpen(false);
@@ -123,6 +132,24 @@ const BillboardForm: React.FC<InitialProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Background Image</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={IsLoading}
+                    onchange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
+                </FormControl>
+                <FormMessage></FormMessage>
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
