@@ -8,7 +8,7 @@ async function SetupLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { storeid: string };
+  params: { storeId: string };
 }) {
   const { userId } = auth();
   if (!userId) {

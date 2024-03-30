@@ -9,7 +9,7 @@ async function DashboardLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { storeid: string };
+  params: { storeId: string };
 }) {
   const { userId } = auth();
   if (!userId) {
@@ -17,7 +17,7 @@ async function DashboardLayout({
   }
   const store = await prismadb.store.findFirst({
     where: {
-      id: params.storeid,
+      id: params.storeId,
       userId,
     },
   });
