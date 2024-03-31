@@ -1,12 +1,17 @@
 "use client";
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React from "react";
 
-function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
+interface Props {
+  className?: React.HTMLAttributes<HTMLDivElement>["className"];
+}
+
+function MainNav({ className, ...props }: Props) {
   const pathname = usePathname();
   const params = useParams();
+
   const routes = [
     {
       href: `/${params.storeId}`,
@@ -16,7 +21,36 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
     {
       href: `/${params.storeId}/billboards`,
       label: "Billboards",
-      active: pathname === `/${params.storeId}/billboards`,
+      active:
+        pathname === `/${params.storeId}/billboards` ||
+        pathname.includes("billboards"),
+    },
+    {
+      href: `/${params.storeId}/categories`,
+      label: "Categories",
+      active:
+        pathname === `/${params.storeId}/categories` ||
+        pathname.includes("categories"),
+    },
+    {
+      href: `/${params.storeId}/sizes`,
+      label: "Sizes",
+      active: pathname === `/${params.storeId}/sizes`,
+    },
+    {
+      href: `/${params.storeId}/colors`,
+      label: "Colors",
+      active: pathname === `/${params.storeId}/colors`,
+    },
+    {
+      href: `/${params.storeId}/products`,
+      label: "Products",
+      active: pathname === `/${params.storeId}/products`,
+    },
+    {
+      href: `/${params.storeId}/orders`,
+      label: "Orders",
+      active: pathname === `/${params.storeId}/orders`,
     },
     {
       href: `/${params.storeId}/settings`,
@@ -24,16 +58,20 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
       active: pathname === `/${params.storeId}/settings`,
     },
   ];
+
   return (
-    <nav className={cn("flex items-center space-x-4 lg:skew-x-6", className)}>
+    <nav
+      className={cn("flex items-center space-x-5 lg:space-x-6", className)}
+      {...props}
+    >
       {routes.map((route) => (
         <Link
-          href={route.href}
           key={route.href}
+          href={route.href}
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
             route.active
-              ? "text-black dark:text-white"
+              ? "text-black dank:text-white font-semibold"
               : "text-muted-foreground"
           )}
         >
