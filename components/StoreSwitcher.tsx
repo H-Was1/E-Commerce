@@ -5,7 +5,6 @@ import { useStoreModal } from "@/hooks/use-store-modal";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Select, SelectSection, SelectItem } from "@nextui-org/react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
